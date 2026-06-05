@@ -30,16 +30,31 @@ class NavBar extends HTMLElement {
 		this.innerHTML = `
 			<nav class="row">
 				<div>
-					<a href="${path}/">Home</a>
-					<a href="${path}/studio-woolworks">Studio Woolworks</a>
+					<a href="${path}/">HOME</a>
+					<a href="${path}/studio-woolworks" data-link="studio-woolworks">STUDIO WOOLWORKS</a>
 				</div>
 
 				<div>
-					<a href="${path}/faq">FAQ</a>
-					<a href="${path}/press-kit">Press Kit</a>
+					<a href="${path}/faq" data-link="faq">FAQ</a>
+					<a href="${path}/press-kit" data-link="press-kit">PRESS KIT</a>
 				</div>
 			</nav>
     `;
+
+		const currentPage = location.pathname
+			.split("/")
+			.filter((a) => a != "")
+			.pop();
+
+		if (currentPage == undefined) {
+			document.querySelector("nav a").classList.add("active");
+		} else {
+			document.querySelectorAll("nav a").forEach(link => {
+				if (currentPage == link.dataset.link) {
+					link.classList.add("active");
+				}
+			});
+		}
 	}
 }
 customElements.define("nav-bar", NavBar);
@@ -74,13 +89,19 @@ class Footer extends HTMLElement {
 					<div class="col">
 						<h3>Join our community!</h3>
 						<div class="row icons">
-							<a href="https://discord.gg/GjAj5Kagcu" target="_blank"><img src="${path}/assets/imgs/footer/discord.png" /></a>
+							<a href="https://discord.gg/GjAj5Kagcu" target="_blank">
+								<img src="${path}/assets/imgs/footer/discord.png" />
+							</a>
 						</div>
 					</div>
 				</div>
 
 				<p id="copyright">&copy; Copyright 2026 USC Games & Studio Woolworks</p>
-				<sprite-btn id="back-to-top-btn" imgId="backToTop" ${base ? "base" : ""}></sprite-btn>
+				<sprite-btn
+					id="back-to-top-btn"
+					imgId="backToTop"
+					${base ? "base" : ""}>
+				</sprite-btn>
 			</footer>
     `;
 	}
